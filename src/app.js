@@ -34,3 +34,14 @@ app.use("/api/users",usersRouter)
 app.use("/",viewRouter)
 
 
+let messages =[]
+io.on("connection",socket=>{
+    console.log("nuevo cliente conectado")  
+    socket.on("message",data=>{
+        messages.push(data);
+        console.log(messages)
+        io.emit("messageLogs",messages);
+    })  
+})
+
+
