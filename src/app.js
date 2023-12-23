@@ -8,6 +8,8 @@ import productsRouter from "./routes/products.router.js"
 import __dirname from "./utils.js"
 import {Server} from "socket.io"
 
+import messagesModel from "./dao/models/messages.model.js";
+
 const PORT = 8080;
 const app = express();
 
@@ -33,13 +35,15 @@ app.use("/api/products",productsRouter);
 app.use("/api/users",usersRouter)
 app.use("/",viewRouter)
 
-
+//websocket
 let messages =[]
-io.on("connection",socket=>{
-    console.log("nuevo cliente conectado")  
-    socket.on("message",data=>{
-        messages.push(data);
-        console.log(messages)
+io.on("connection", async (socket)=>{
+    console.log("nuevo cliente conectado")
+    messages = await messagesModel.find();
+    io.emit("messageLogs",messages);  
+    socket.on("message",async(data)=>{
+        const result = await messagesModel.create(data);
+        messages.push(data);//aca es donde guardamos en la "base de datos"
         io.emit("messageLogs",messages);
     })  
 })
