@@ -3,6 +3,9 @@ import userModel from "../dao/models/user.model.js"
 import productsModel from "../dao/models/products.model.js";
 import cartsModel from "../dao/models/carts.model.js";
 
+import CartManagerDB from "../dao/dbManagers/CartManagerDB.js";
+const cartManagerMongo = new CartManagerDB();
+
 const router = Router();
 
 router.get("/",(req,res)=>{
@@ -22,7 +25,8 @@ router.get("/products",async(req,res)=>{
 })
 
 router.get("/carts",async(req,res)=>{
-    const carts = await cartsModel.find().lean();
+    const carts = await cartManagerMongo.getCarts()
+    console.log(carts)
     res.render("carts",{carts})
 
 })
