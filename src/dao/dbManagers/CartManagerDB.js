@@ -4,14 +4,14 @@ import productsModel from "../models/products.model.js";
 class CartManagerDB{
 
     getCarts = async()=>{
-        const carts = await cartsModel.find();
+        const carts = await cartsModel.find().lean();
         return carts;
     } 
 
     getCartsByID = async(cid)=>{
 
         try{
-            const cart = await cartsModel.findOne({_id:cid});
+            const cart = await cartsModel.findOne({_id:cid}).lean();
             return cart;
         }
         catch(error){

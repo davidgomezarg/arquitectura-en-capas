@@ -18,12 +18,19 @@
     <div>
 
         <ul style="list-style-type: none">
-            {{#each products}}
+            {{#each msg.docs}}
             <hr>
             <li>{{title}} {{price}} {{_id}}</li>
-            <li><img src="{{thumbnail}}" alt="" height="100px"></li>
+            <li><img src="{{thumbnail}}" alt="" height="100px"></li>            
             {{/each}}
         </ul>
 
+    {{#if msg.hasPrevPage}}
+    <a href="{{msg.prevPage}}" >Anterior</a>
+    {{/if}}
+
+    {{#if msg.hasNextPage}}
+    <a href="{{msg.nextPage}}" >Siguiente</a>
+    {{/if}}
     </div>
 </div>
