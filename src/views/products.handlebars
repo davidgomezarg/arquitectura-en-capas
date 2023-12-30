@@ -1,5 +1,5 @@
 <div>
-    <div>
+    {{!-- <div>
         <p>Agregá nuevos productos:</p>
     </div>
     <form action="/api/products" enctype="multipart/form-data" method="post">
@@ -11,17 +11,24 @@
         <input name="stock" placeholder="stock">
         <input type="file" name="thumbnail" id="thumbnail">
         <input type="submit" value="Enviar">
-    </form>
+    </form> --}}
     <div>
-        <p>Productos agregados hasta el momento:</p>
+        <p>Productos Disponibles:</p>
     </div>
     <div>
-
         <ul style="list-style-type: none">
             {{#each msg.docs}}
             <hr>
-            <li>{{title}} {{price}} {{_id}}</li>
-            <li><img src="{{thumbnail}}" alt="" height="100px"></li>            
+            <li>{{title}} {{price}}</li>
+            <p>id: {{_id}}</p>
+            <p>{{description}}</p>
+            <li><img src="{{thumbnail}}" alt="" height="100px"></li>
+
+            <button name="btn" id="{{_id}}">Agregar a carrito</button>
+
+            {{!-- <form action="/api/carts/{{cid}}/product/{{_id}}" enctype="multipart/form-data" method="post">
+                <input type="submit" value="Agregar a carrito">
+            </form>             --}}
             {{/each}}
         </ul>
 
@@ -34,3 +41,6 @@
     {{/if}}
     </div>
 </div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="/js/products.js"></script>
