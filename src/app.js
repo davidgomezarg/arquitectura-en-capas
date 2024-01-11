@@ -1,17 +1,23 @@
 import express from "express"
+import session from "express-session"
+import MongoStore from "connect-mongo"
 import mongoose from "mongoose"
+
 import{engine} from "express-handlebars"
+import __dirname from "./utils.js"
+import {Server} from "socket.io"
+import messagesModel from "./dao/models/messages.model.js";
+
 import cartsRouter from "./routes/carts.router.js"
 import usersRouter from "./routes/users.router.js"
 import viewRouter from "./routes/views.router.js"
 import productsRouter from "./routes/products.router.js"
-import __dirname from "./utils.js"
-import {Server} from "socket.io"
+import sessionRouter from "./routes/sessions.router.js"
 
-import messagesModel from "./dao/models/messages.model.js";
-
+//import cookieParser from "cookie-parser"
 //import productsModel from "./dao/models/products.model.js"
 //import productCarga from "./files/bd.js"
+
 
 const PORT = 8080;
 const app = express();
@@ -25,8 +31,18 @@ const connection = mongoose.connect(MONGO);
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
+app.use(session({
+    store: new MongoStore({
+        mongoUrl:MONGO,
+        ttl:3600
+    }),
+    secret:"CoderSecret",
+    resave:false,
+    saveUninitialized:false
+}))
+
 const httpServer = app.listen(PORT, ()=>console.log(`Servidor funcionando en el puerto: ${PORT}`))
-console.log("dirname",__dirname)
+
 const io= new Server(httpServer);
 
 app.engine("handlebars",engine());
@@ -39,6 +55,7 @@ app.use(express.static(__dirname + "/public"))
 app.use("/api/carts",cartsRouter);
 app.use("/api/products",productsRouter);
 app.use("/api/users",usersRouter)
+app.use("/api/sessions",sessionRouter)
 app.use("/",viewRouter)
 
 //websocket

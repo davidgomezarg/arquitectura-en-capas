@@ -28,10 +28,10 @@ router.post("/",uploader.single("thumbnail"),async(req,res)=>{
 
     const {first_name,last_name,email}=req.body;
     //console.log(req)
-    const filename = req.file.filename;
+    //const filename = req.file.filename;
 
 
-    if(!first_name||!last_name||!email||!filename){
+    if(!first_name||!last_name||!email){
         return res.status(400).send({
             status: "error",
             message: "valores incompletos"
@@ -41,8 +41,8 @@ router.post("/",uploader.single("thumbnail"),async(req,res)=>{
     const user ={
         first_name,
         last_name,
-        email,
-        thumbnail:`http://localhost:8080/images/${filename}`
+        email
+        //thumbnail:`http://localhost:8080/images/${filename}`
     }
 
     const result = await userModel.create(user);
