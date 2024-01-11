@@ -61,17 +61,19 @@ router.post("/login", async (req,res)=>{
 })
 
 router.get("/logout",(req,res)=>{
-    req.session.destroy(err=>{
+    console.log("Antes:",req.session)
+    req.session.destroy((err)=>{
         if(err)
         {
-            console.log(err)
+            console.log("Error: ", err)
             return res.status(500).send({
                 status: "error",
                 error: "No se pudo desloguear"
             })
         }
-        res.redirect.apply("/login")
+        res.redirect("/login")
     })
+    console.log("Despues:",req.session)
 })
 
 export default router
