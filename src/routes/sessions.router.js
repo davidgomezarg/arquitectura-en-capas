@@ -32,7 +32,7 @@ router.post("/register",async (req,res)=>{
 })
 
 router.post("/login", async (req,res)=>{
-    console.log("estamos en el endpoint /login")
+    
     console.log("req.body:",req.body)
     const {email,password}=req.body;
 
@@ -58,6 +58,20 @@ router.post("/login", async (req,res)=>{
         message:"Mi primer login!"
     })
 
+})
+
+router.get("/logout",(req,res)=>{
+    req.session.destroy(err=>{
+        if(err)
+        {
+            console.log(err)
+            return res.status(500).send({
+                status: "error",
+                error: "No se pudo desloguear"
+            })
+        }
+        res.redirect.apply("/login")
+    })
 })
 
 export default router

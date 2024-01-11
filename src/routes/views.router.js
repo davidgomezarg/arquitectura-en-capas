@@ -11,15 +11,29 @@ const productManagerMongo = new ProductManagerDB();
 
 const router = Router();
 
+const publicAccess = (req,res,next)=>{
+    if(req.session.user){
+        return res.redirect("/")
+    }
+    next();
+}
+
+const privateAccess = (req,res,next)=>{
+    if(!req.session.user){
+        return res.redirect("/login")
+    }
+    next();
+}
+
 router.get("/",(req,res)=>{
     res.render("profile",{user:req.session.user})
 })
 
-router.get("/login",(req,res)=>{
+router.get("/login",publicAccess,(req,res)=>{
     res.render("login")
 })
 
-router.get("/register",(req,res)=>{
+router.get("/register",publicAccess,(req,res)=>{
     res.render("register")
 })
 
@@ -67,7 +81,7 @@ router.get("/products",async(req,res)=>{
     }
 
     console.log(result.msg);
-    res.render("products",{msg:result.msg})
+    res.render("products",{msg:result.msg,user:req.session.user})
 
 })
 
