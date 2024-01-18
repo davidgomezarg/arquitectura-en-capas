@@ -25,7 +25,7 @@ const privateAccess = (req,res,next)=>{
     next();
 }
 
-router.get("/",(req,res)=>{
+router.get("/",privateAccess,(req,res)=>{
     res.render("profile",{user:req.session.user})
 })
 
@@ -43,7 +43,7 @@ router.get("/usuarios",async(req,res)=>{
 
 })
 
-router.get("/products",async(req,res)=>{
+router.get("/products",privateAccess,async(req,res)=>{
     
         const {limit,page,sort,category,status,price}=req.query;
 

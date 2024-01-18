@@ -1,29 +1,12 @@
 import {Router} from "express"
 import userModel from "../dao/models/user.model.js";
+import {createHash,validatePassword} from "../utils.js"
+import passport from "passport";
 
 
 const router = Router();
 
-router.post("/register",async (req,res)=>{
-    const {first_name,last_name,email,age,password}=req.body;
-    const exists = await userModel.findOne({email})
-
-    if(exists){
-        return res.status(400).send({
-            status:"error",
-            error:"El usiario ya existe"
-        })
-    }
-
-    const user ={
-        first_name,
-        last_name,
-        email,
-        age,
-        password
-    }
-
-    let result = await userModel.create(user);
+router.post("/register",passport.authenticate("register",{failureRedirect:"/api/sessions/failregister"}),async (req,res)=>{
     res.send({
         status:"success",
         message:"usuario registrado"
@@ -31,33 +14,41 @@ router.post("/register",async (req,res)=>{
 
 })
 
-router.post("/login", async (req,res)=>{
+router.get("/failregister",async (req,res)=>{
+    console.log("Fallo el registro")
+    res.send({error:"fallo en el registro"})
+})
+
+router.post("/login", passport.authenticate("login", {failureRedirect:'/api/session/faillogin'}),async (req,res)=>{
     
-    console.log("req.body:",req.body)
-    const {email,password}=req.body;
+        console.log("req.user: ",req.user);
 
-    const user = await userModel.findOne({email,password})
+        if(!req.user){
+            return res.status(400).send({
+                status:"error",
+                error:"Datos incorrectos"
+            })
+        }
 
-    if(!user){
-        return res.status(400).send({
-            status:"error",
-            error:"Datos incorrectos"
-        })
-    }
+        //Aca creamos la session?
+        req.session.user = {
+            first_name: req.user.first_name,
+            last_name: req.user.last_name,
+            email: req.user.email,
+            age: req.user.age
+        }
 
-    req.session.user = {
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        age: user.age
-    }
-
-    res.send({
+        res.send({
         status:"success",
         payload:req.session.user,
         message:"Mi primer login!"
     })
 
+})
+
+router.get("/faillogin",async (req,res)=>{
+    console.log("Fallo el login")
+    res.send({error:"fallo en el login"})
 })
 
 router.get("/logout",(req,res)=>{

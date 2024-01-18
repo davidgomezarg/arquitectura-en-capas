@@ -14,6 +14,9 @@ import viewRouter from "./routes/views.router.js"
 import productsRouter from "./routes/products.router.js"
 import sessionRouter from "./routes/sessions.router.js"
 
+import passport from "passport"
+import inicializePassport from "./config/passport.config.js"
+
 //import cookieParser from "cookie-parser"
 //import productsModel from "./dao/models/products.model.js"
 //import productCarga from "./files/bd.js"
@@ -50,6 +53,10 @@ app.set("view engine","handlebars");
 app.set("views",__dirname+"/views");
 
 app.use(express.static(__dirname + "/public"))
+
+inicializePassport();
+app.use(passport.initialize())
+app.use(passport.session());
 
 //Rutas
 app.use("/api/carts",cartsRouter);
