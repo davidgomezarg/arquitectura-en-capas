@@ -18,7 +18,7 @@ form.addEventListener("submit",e=>{
             window.location.replace("/products");
         }
         else{
-            console.log(result);
+            console.log("Parece que no existe el usuario....",result);
         }
     })
 

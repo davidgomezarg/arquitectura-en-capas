@@ -21,7 +21,6 @@ import inicializePassport from "./config/passport.config.js"
 //import productsModel from "./dao/models/products.model.js"
 //import productCarga from "./files/bd.js"
 
-
 const PORT = 8080;
 const app = express();
 
