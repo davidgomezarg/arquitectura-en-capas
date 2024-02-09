@@ -9,6 +9,7 @@ const crearCarrito = ()=>{
     })
     .then((resp)=>resp.json())
     .then((data)=>{
+        console.log("Ya se creo el carrito. El _id vieneaca dentro: ",data);
         console.log("Estamos dentro de crear carrito: ",data.message._id)
 
         const botonesCard = document.getElementsByName("btn");
@@ -27,7 +28,7 @@ const agregarCarrito=(cid,pid)=>{
 
     fetch(endpoint,{
         method:"POST"
-    }).then((resp)=>{console.log(resp)})
+    }).then((resp)=>{console.log("Esta es la respuesta de addProduct: ",resp)})
 
 }
 

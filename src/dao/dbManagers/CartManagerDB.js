@@ -5,6 +5,7 @@ class CartManagerDB{
 
     getCarts = async()=>{
         const carts = await cartsModel.find().lean();
+        console.log("Que onda?: ",carts)
         return carts;
     } 
 
