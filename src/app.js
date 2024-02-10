@@ -1,7 +1,8 @@
 import express from "express"
 import session from "express-session"
 import MongoStore from "connect-mongo"
-import mongoose from "mongoose"
+import { options } from "./config/options.js";
+import { connectDB } from "./config/dbConnection.js";
 
 import{engine} from "express-handlebars"
 import __dirname from "./utils.js"
@@ -21,11 +22,12 @@ import inicializePassport from "./config/passport.config.js"
 //import productsModel from "./dao/models/products.model.js"
 //import productCarga from "./files/bd.js"
 
-const PORT = 8080;
+const PORT = options.server.port;
+const MONGO_URL = options.mongo.url;
 const app = express();
+console.log(process.env)
+connectDB();
 
-const MONGO = "mongodb+srv://davidgomezarg:9$PqEtLt7hw7KVx@codercluster.xu3gigw.mongodb.net/ecommerce"
-const connection = mongoose.connect(MONGO);
 
 //const resultCarga = await productsModel.insertMany(productCarga)
 //console.log(resultCarga)
@@ -35,7 +37,7 @@ app.use(express.urlencoded({extended:true}));
 
 app.use(session({
     store: new MongoStore({
-        mongoUrl:MONGO,
+        mongoUrl:MONGO_URL,
         ttl:3600
     }),
     secret:"CoderSecret",
@@ -56,6 +58,8 @@ app.use(express.static(__dirname + "/public"))
 inicializePassport();
 app.use(passport.initialize())
 app.use(passport.session());
+
+
 
 //Rutas
 app.use("/api/carts",cartsRouter);
