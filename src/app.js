@@ -25,7 +25,6 @@ import inicializePassport from "./config/passport.config.js"
 const PORT = options.server.port;
 const MONGO_URL = options.mongo.url;
 const app = express();
-console.log(process.env)
 connectDB();
 
 
