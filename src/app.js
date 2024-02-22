@@ -2,7 +2,7 @@ import express from "express"
 import session from "express-session"
 import MongoStore from "connect-mongo"
 import { options } from "./config/options.js";
-import { connectDB } from "./config/dbConnection.js";
+
 
 import{engine} from "express-handlebars"
 import __dirname from "./utils.js"
@@ -25,7 +25,7 @@ import inicializePassport from "./config/passport.config.js"
 const PORT = options.server.port;
 const MONGO_URL = options.mongo.url;
 const app = express();
-connectDB();
+
 
 
 //const resultCarga = await productsModel.insertMany(productCarga)

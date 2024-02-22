@@ -24,7 +24,7 @@ class ViewsController{
 
         const filter = category?{category}:{};
 
-    const result = await productManagerMongo.getProducts(filter,options);
+    const result = await productManagerMongo.get(filter,options);
     
 
     if(result.msg.hasPrevPage)

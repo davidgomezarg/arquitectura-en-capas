@@ -2,7 +2,7 @@ import productsModel from "../models/products.model.js";
 
 class ProductManagerDB{
 
-    getProducts = async(filter,options)=>{
+    get = async(filter,options)=>{
         const products = await productsModel.paginate(
             filter,
             options
@@ -22,52 +22,48 @@ class ProductManagerDB{
         };
     } 
 
-    createProduct = async(title,category,description,price,code,stock,filename)=>{
+    create = async({title,category,description,price,code,stock,filename})=>{
 
-        if(!title||!category||!description||!price||!code||!stock||!filename){
-            return {
-                status: "error",
-                message: "valores incompletos"
+        try{
+            if(!title||!category||!description||!price||!code||!stock||!filename){
+                console.log("Error en producmanager 1")
+                return {
+                    status: "error",
+                    message: "valores incompletos"
+                }
             }
-        }
+        
+            const product ={
+                title,
+                description,
+                price,
+                code,
+                stock,
+                thumbnail:`http://localhost:8080/images/${filename}`
+            }
     
-        const product ={
-            title,
-            description,
-            price,
-            code,
-            stock,
-            thumbnail:`http://localhost:8080/images/${filename}`
+            const result = await productsModel.create(product)
+            return result
+        }
+        catch{
+            console.log("Error en producmanager 2")
+            throw new Error(`Hubo un error al crear el producto. Error: ${error.message}`) 
         }
 
-        const result = await productsModel.create(product)
-        return result
+        
 
     }
 
-    deleteProduct = async(pid)=>{
+    delete = async(pid)=>{
         const result= await productsModel.deleteOne({_id:pid});
         return result
     } 
 
-    updateProduct = async(pid,title,category,description,price,code,stock)=>{
+    update = async(product)=>{
 
-        const updateProduct = {
-            title,
-            category,
-            description,
-            price,
-            code,
-            stock
-            // thumbnail:`http://localhost:8080/images/${filename}`
-        }
-    
-        const result= await productsModel.updateOne({_id:pid},{$set:updateProduct});
+        const result= await productsModel.updateOne({_id:pid},{$set:product});
         return result
      } 
-    
-
-
 }
 
 export default ProductManagerDB

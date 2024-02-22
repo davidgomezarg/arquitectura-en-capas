@@ -2,7 +2,7 @@ import userModel from "../dao/models/user.model.js"
 
 class UserController{
 
-    static getUsers = async(req,res)=>{
+    async get(){
         const users = await userModel.find()
         res.send({
             status: "success",
