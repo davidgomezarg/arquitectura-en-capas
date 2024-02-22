@@ -16,8 +16,10 @@ export class UsersRepository{
     }
 
     createUser = (user)=>{
-        const result = this.dao.createUser(user);
-        return result;
+        const userDTO = new CreateUserDTO(user);
+        const result = this.dao.createUser(userDTO);
+        const userDTOFront = new GetUserDTO(result);
+        return userDTOFront;
 
     }
 
