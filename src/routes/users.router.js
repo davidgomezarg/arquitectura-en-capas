@@ -1,11 +1,12 @@
 import {Router} from "express"
 import { uploader } from "../utils.js";
 import { userService } from "../repositories/index.js";
+import {checkRole} from "../middlewares/auth.js";
 
 const router = Router();
 
 
-router.get("/",async (req,res)=>{
+router.get("/",checkRole(["Admin"]),async (req,res)=>{
     try {
         const users = await userService.getUsers();
         res.json({status:"success", payload: users});

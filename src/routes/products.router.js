@@ -1,6 +1,7 @@
 import {Router} from "express"
 import { uploader } from "../utils.js";
 import { productService } from "../repositories/index.js";
+import {checkRole} from "../middlewares/auth.js";
 
 const router = Router();
 
@@ -56,7 +57,7 @@ router.get("/:pid",async(req,res)=>{
     }
 } )
 
-router.post("/",uploader.single("thumbnail"),async(req,res)=>{
+router.post("/",checkRole(["Admin"]),uploader.single("thumbnail"),async(req,res)=>{
 
     try{
         const {title,category,description,price,code,stock}=req.body;
@@ -71,7 +72,7 @@ router.post("/",uploader.single("thumbnail"),async(req,res)=>{
 
 })
 
-router.delete("/:pid",async(req,res)=>{
+router.delete("/:pid",checkRole(["Admin"]),async(req,res)=>{
 
     try{
         const pid=req.params.pid;
@@ -84,7 +85,7 @@ router.delete("/:pid",async(req,res)=>{
 
 })
 
-router.put("/:pid",async(req,res)=>{
+router.put("/:pid",checkRole(["Admin"]),async(req,res)=>{
 
     try{
         const pid=req.params.pid;

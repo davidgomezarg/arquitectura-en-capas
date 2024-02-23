@@ -1,5 +1,6 @@
 import {Router} from "express"
 import {CartsController} from "../controller/carts.controller.js"
+import {checkRole} from "../middlewares/auth.js";
 
 const router = Router();
 
@@ -15,7 +16,7 @@ router.get("/:cid",CartsController.getCartById)
 router.post("/",CartsController.newCart)
 
 //Se agregará un producto a un carrito existente.
-router.post('/:cid/product/:pid', CartsController.addProduct)
+router.post('/:cid/product/:pid',checkRole(["User"]),CartsController.addProduct)
 
 router.delete('/:cid/product/:pid', CartsController.deleteProduct)
 
