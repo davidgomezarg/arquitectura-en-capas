@@ -27,11 +27,4 @@ export class UsersRepository{
         const result = this.dao.delete(id);
         return result;
     }
-
-    // async createContact(contact){
-    //     const contactDto = new CreateContactDTO(contact);
-    //     const contactCreated = await this.dao.post(contactDto);
-    //     const contactDtoFront = new GetContactoDTO(contactCreated);
-    //     return contactDtoFront;
-    // }
 }

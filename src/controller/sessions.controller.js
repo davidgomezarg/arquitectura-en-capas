@@ -1,4 +1,4 @@
-
+import {GetUserDTO} from "../dao/DTOs/users.dto.js"
 
 class SessionsController{
 
@@ -40,7 +40,19 @@ class SessionsController{
         message:"Mi primer login!"
     })
 
-}
+    }
+    static current = async (req,res)=>{
+
+    console.log(req.session.user)
+    const userDTOFront = new GetUserDTO(req.session.user);
+    
+    res.send({
+        status:"success",
+        payload:userDTOFront,
+        message:"Aca estan los datos de la session"
+    })
+
+    }
 
     static faillogin = async (req,res)=>{
         console.log("Fallo el login")

@@ -12,6 +12,7 @@ router.post("/login", passport.authenticate("login", {failureRedirect:'/api/sess
 
 router.get("/faillogin",SessionsController.faillogin)
 
+router.get("/current",SessionsController.current)
 router.get("/logout",SessionsController.logout)
 
 router.get("/github",passport.authenticate("github",{scope:["user:email"]}),async(req,res)=>{})
