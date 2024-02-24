@@ -2,8 +2,12 @@ import passport from "passport";
 import local from "passport-local";
 import GitHubStrategy from "passport-github2"
 
-import userModel from "../dao/models/user.model.js";
+import CartManagerDB from "../dao/dbManagers/CartManagerDB.js";
+const cartManagerDB = new CartManagerDB();
+
+import userModel from "../dao/models/user.model.js";//tengo que usar repository
 import {createHash, validatePassword} from "../utils.js";
+import { userService } from "../repositories/index.js";
 
 const LocalStrategy = local.Strategy;
 
@@ -20,12 +24,18 @@ const inicializePassport = () => {
                 console.log('Usuario ya registrado');
                 return done(null,false)
             }
+            //Creamos carrito y lo asociamos al usuario nuevo que vamos a crear. Tengo que usar repository
+            //const newCart = cartService.create()
+            const newCart = await cartManagerDB.createCart();
+            console.log("Se creeo el cart: ",newCart._id)
+
             const newUser = {
                 first_name,
                 last_name,
                 email,
                 age,
-                password: createHash(password)
+                password: createHash(password),
+                cart:newCart._id
             }
             const result = await userModel.create(newUser);
             return done (null, result);

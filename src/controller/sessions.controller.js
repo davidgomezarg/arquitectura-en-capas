@@ -31,7 +31,8 @@ class SessionsController{
             first_name: req.user.first_name,
             last_name: req.user.last_name,
             email: req.user.email,
-            age: req.user.age
+            age: req.user.age,
+            cart: req.user.cart
         }
 
         res.send({
@@ -43,10 +44,10 @@ class SessionsController{
     }
     static current = async (req,res)=>{
 
-    console.log(req.session.user)
+    //console.log(req.session.user)
     const userDTOFront = new GetUserDTO(req.session.user);
     
-    res.send({
+    res.json({
         status:"success",
         payload:userDTOFront,
         message:"Aca estan los datos de la session"

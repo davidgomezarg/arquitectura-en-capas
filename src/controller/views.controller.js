@@ -43,8 +43,6 @@ class ViewsController{
     {
         data.cid="658cbaa3b299fdafc649721c";
     }
-
-    console.log(result.msg);
     res.render("products",{msg:result.msg,user:req.session.user})
 
 }

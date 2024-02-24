@@ -1,22 +1,22 @@
 //Aca hay un problema. Cada vez que se avanza en la paginacion, se vuelve a cargar el scrip y se crea un nuevo carrito.
 
-const crearCarrito = ()=>{
+const getCarrito = ()=>{
 
-    const endpoint =`http://localhost:8080/api/carts`;
+    const endpoint =`http://localhost:8080/api/sessions/current`;
 
     fetch(endpoint,{
-        method:"POST"
+        method:"GET"
     })
     .then((resp)=>resp.json())
     .then((data)=>{
-        console.log("Ya se creo el carrito. El _id vieneaca dentro: ",data);
-        console.log("Estamos dentro de crear carrito: ",data.message._id)
+        // console.log("El usuario actual es",data.payload);
+        // console.log("Estamos dentro de crear carrito: ",data.payload.cart)
 
         const botonesCard = document.getElementsByName("btn");
 
         for (let boton of botonesCard) {
             boton.addEventListener('click', (e)=> {
-                agregarCarrito(data.message._id,e.target.id); })
+                agregarCarrito(data.payload.cart,e.target.id); })
         }
     })
 
@@ -33,7 +33,5 @@ const agregarCarrito=(cid,pid)=>{
 }
 
 
-//Creamos carrito para obtener el "cid"
-//const cid= "658cbaa3b299fdafc649721c"
-crearCarrito()
+getCarrito()
 

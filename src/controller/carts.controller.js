@@ -1,5 +1,4 @@
 import CartManagerDB from "../dao/dbManagers/CartManagerDB.js";
-
 const cartManagerDB = new CartManagerDB();
 
 class CartsController {
