@@ -45,7 +45,7 @@ class ViewsController{
     }
     res.render("products",{msg:result.msg,user:req.session.user})
 
-}
+    }
 
     static usuarios = async(req,res)=>{
         const users = await userModel.find().lean();
@@ -54,9 +54,9 @@ class ViewsController{
 
     static getCartsByID = async(req,res)=>{
         const cid= req.params.cid;
-        const carts = await cartManagerMongo.getCartsByID(cid);
-        console.log(carts)
-        res.render("carts",{carts})
+        const cart = await cartManagerMongo.getCartsByID(cid);
+        console.log(cart)
+        res.render("carts",{cart})
     
     }
 }

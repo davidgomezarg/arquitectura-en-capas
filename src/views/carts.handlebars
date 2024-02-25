@@ -7,8 +7,8 @@
         <ul style="list-style-type: none">
             {{!-- {{#each carts}} --}}
             
-            <li>Carrito id: {{carts._id}}</li>
-                {{#each carts.products}}
+            <li>Carrito id: {{cart._id}}</li>
+                {{#each cart.products}}
                 <hr>
                 <li>Producto: {{product.title}}</li>
                 <li>Cantidad {{quantity}}</li>
@@ -16,6 +16,8 @@
             
             {{!-- {{/each}} --}}
         </ul>
+
+        <a href="/api/carts/{{cart._id}}/purchase"><button>Finalizar compra</button></a>
 
     </div>
 </div>
