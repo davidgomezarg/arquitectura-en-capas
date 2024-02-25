@@ -18,6 +18,8 @@ router.post("/",CartsController.newCart)
 //Se agregará un producto a un carrito existente.
 router.post('/:cid/product/:pid',checkRole(["User"]),CartsController.addProduct)
 
+router.post('/:cid/purchase', CartsController.purchase)
+
 router.delete('/:cid/product/:pid', CartsController.deleteProduct)
 
 router.put('/:cid', CartsController.updateCart)

@@ -31,6 +31,10 @@ class CartsController {
     
     }
 
+    static purchase = async(req,res)=>{
+
+    }
+
         static addProduct = async (req,res)=>{
 
             const cid= req.params.cid;
