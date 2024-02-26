@@ -77,9 +77,13 @@ class CartManagerDB{
 
     deleteProductInCart = async(cid,pid)=>{
 
+        // console.log("cid: ",cid)
+        // console.log("pid: ",pid)
+
         const cart = await cartsModel.findOne({_id:cid})
+        console.log("cart con cid: ",cart)
         //Buscamos el producto
-        const index = cart.products.findIndex(e => e.product == pid);
+        const index = cart.products.findIndex(e => e.product._id == pid);
         //si el producto existe, lo eliminamos
         if(index!= -1)
         {
@@ -93,7 +97,7 @@ class CartManagerDB{
         else{
             return {
                 status: "error",
-                msg: `El producto con el id ${pid} no existe`
+                msg: `El producto con el id ${pid} no existe.`
             }
         }
 

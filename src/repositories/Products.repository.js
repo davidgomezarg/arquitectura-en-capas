@@ -23,8 +23,8 @@ export class ProductsRepository{
         return result;
     }
 
-    async put(product){
-        const result = await this.dao.update(product);
+    async put(id,product){
+        const result = await this.dao.update(id,product);
         return result;
     }
 }

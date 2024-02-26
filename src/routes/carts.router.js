@@ -4,7 +4,7 @@ import {checkRole} from "../middlewares/auth.js";
 
 const router = Router();
 
-//const cartsController = new CartsController();
+const cartsController = new CartsController();
 
 
 router.get("/",CartsController.getCarts)
@@ -18,7 +18,7 @@ router.post("/",CartsController.newCart)
 //Se agregará un producto a un carrito existente.
 router.post('/:cid/product/:pid',checkRole(["User"]),CartsController.addProduct)
 
-router.get('/:cid/purchase', CartsController.purchase)
+router.get('/:cid/purchase', cartsController.purchase)
 
 router.delete('/:cid/product/:pid', CartsController.deleteProduct)
 

@@ -1,3 +1,6 @@
+import { productService } from "../repositories/index.js";
+import {cartService} from "../repositories/index.js";
+
 import CartManagerDB from "../dao/dbManagers/CartManagerDB.js";
 const cartManagerDB = new CartManagerDB();
 
@@ -31,7 +34,52 @@ class CartsController {
     
     }
 
-    static purchase = async(req,res)=>{
+    purchase = async (req,res)=>{
+        console.log("Punto 1")
+        //Traemos el carrito de la base de datos
+        const cid= req.params.cid;
+        const cart = await cartService.getCartsByID(cid);
+        console.log("Punto 2")
+        //1- Hagarro cada producto del carrito y lo busco en la db
+        if(cart)
+        {
+            console.log("Punto 3")
+            const productTicket= [];
+
+            for(const element of cart.products){
+
+                const productBD = await productService.getProductByID(element.product._id)
+                //console.log("productBD",productBD)
+                if(productBD)
+                {
+                    // console.log("productBD.msg[0].stock: ",productBD.msg[0].stock)
+                    // console.log("element.quantity: ",element.quantity)
+                    if(productBD.msg[0].stock>=element.quantity)
+                    {
+                        productTicket.push(element)
+                        console.log("Se hizo un push a productTicket")
+                        //actualizo cantidad en bd de productos.
+                        const result = await productService.put(element.product._id,{stock:productBD.msg[0].stock-element.quantity})
+                        //console.log("result:",result)
+                        //elimino producto del cart asociado al comprador.
+                        const result2 = await cartService.deleteProductInCart(cid,element.product._id.valueOf())
+                        console.log("result2:",result2)
+                    } 
+                }
+
+            }
+
+            //Generar ticket
+
+            console.log("Se Termino el proceso de compra. productTicket.")
+            res.send({
+                status: "success",
+                payload: productTicket
+                })
+
+        }
+
+        
 
     }
 

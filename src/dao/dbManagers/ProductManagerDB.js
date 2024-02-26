@@ -59,7 +59,7 @@ class ProductManagerDB{
         return result
     } 
 
-    update = async(product)=>{
+    update = async(pid,product)=>{
 
         const result= await productsModel.updateOne({_id:pid},{$set:product});
         return result
