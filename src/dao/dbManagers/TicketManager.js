@@ -29,7 +29,7 @@ export class TicketManagerDB{
             return user
         }
         catch{
-            throw new Error(`Hubo un error al crear el usuario nuevo. Error: ${error.message}`) 
+            return `Hubo un error al crear el ticket.`
         } 
     }
 
