@@ -37,15 +37,14 @@ class CartsController {
     }
 
     purchase = async (req,res)=>{
-        console.log("Punto 1")
+
         //Traemos el carrito de la base de datos
         const cid= req.params.cid;
         const cart = await cartService.getCartsByID(cid);
-        console.log("Punto 2")
+
         //1- Hagarro cada producto del carrito y lo busco en la db
         if(cart)
         {
-            console.log("Punto 3")
             const productTicket= [];
             let totalPrice = 0;
 
@@ -62,7 +61,7 @@ class CartsController {
                         productTicket.push(element)
                         totalPrice = totalPrice + element.product.price;
 
-                        console.log("Se hizo un push a productTicket")
+                        //console.log("Se hizo un push a productTicket")
                         //actualizo cantidad en bd de productos.
                         const result = await productService.put(element.product._id,{stock:productBD.msg[0].stock-element.quantity})
                         //console.log("result:",result)
@@ -83,14 +82,14 @@ class CartsController {
                 purchaser: req.session.user.email
             }
 
-            console.log("El ticket es: ",ticket)
+            // console.log("El ticket es: ",ticket)
 
             const result3 = await ticketService.create(ticket);
-            console.log(result3)
-            console.log("Se Termino el proceso de compra. productTicket.")
+            // console.log(result3)
+            //console.log("Se Termino el proceso de compra. productTicket.")
             res.send({
                 status: "success",
-                payload: productTicket
+                payload: ticket
                 })
 
         }
