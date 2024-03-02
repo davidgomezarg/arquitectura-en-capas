@@ -25,16 +25,13 @@ class ProductManagerDB{
     create = async({title,category,description,price,code,stock,filename})=>{
 
         try{
-            if(!title||!category||!description||!price||!code||!stock||!filename){
-                console.log("Error en producmanager 1")
-                return {
-                    status: "error",
-                    message: "valores incompletos"
-                }
+            if(!title||!category||!description||!price||!code||!stock){
+                return "Datos incompletos"
             }
         
             const product ={
                 title,
+                category,
                 description,
                 price,
                 code,
@@ -43,11 +40,11 @@ class ProductManagerDB{
             }
     
             const result = await productsModel.create(product)
-            return result
+            return "Producto creado satisfactoriamente"
         }
         catch{
-            console.log("Error en producmanager 2")
-            throw new Error(`Hubo un error al crear el producto. Error: ${error.message}`) 
+            console.log("Error en producmanager")
+            return "Hubo un error al crear el producto"
         }
 
         

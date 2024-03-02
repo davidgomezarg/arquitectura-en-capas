@@ -57,13 +57,53 @@ router.get("/:pid",async(req,res)=>{
     }
 } )
 
-router.post("/",checkRole(["Admin"]),uploader.single("thumbnail"),async(req,res)=>{
+//Entrega clase 32. sacamos la autentificacion de Admin para hacerlo desde posman.
+//checkRole(["Admin"]),uploader.single("thumbnail")
+
+// const createProduct = async (title,category,description,price,code,stock)=>{
+
+    
+//     if()
+//     const result = await productService.create({title,category,description,price,code,stock});
+//     return 
+// }
+
+router.post("/",async(req,res)=>{
 
     try{
         const {title,category,description,price,code,stock}=req.body;
-        const filename = req.file.filename;
+        //const filename = req.file.filename;
     
-        const result = await productService.create({title,category,description,price,code,stock,filename});
+        const result = await productService.create({title,category,description,price,code,stock});
+        console.log(result);
+
+        //--------------------------------------------------------------
+
+        let testPasados = 0;
+        let testTotal = 2;
+
+
+        console.log(`--------- Prueba 1 ----------`);
+        console.log(`Se creara un producto con todos los datos válidos. Retornar (“Producto creado satisfactoriamente")`)
+        if(result === "Producto creado satisfactoriamente"){
+            testPasados++;
+            console.log("Paso test 1");
+        }else{
+            console.log("No paso test 1");
+        }
+
+        console.log(`--------- Prueba 2 ----------`);
+        console.log(`Se intentará crear un un producto con todos los campos, menos alguno/s. Retornar (“Datos incompletos”)`)
+
+        if(result === "Datos incompletos"){
+            testPasados++;
+            console.log("Paso test 2")
+        }else{
+            console.log("No paso test 2")
+
+        }
+
+        //--------------------------------------------------------------
         res.json({status:"success", payload: result});
     }
     catch{
