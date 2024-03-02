@@ -14,6 +14,7 @@ import usersRouter from "./routes/users.router.js"
 import viewRouter from "./routes/views.router.js"
 import productsRouter from "./routes/products.router.js"
 import sessionRouter from "./routes/sessions.router.js"
+import {mockingproductsRouter} from "./routes/products-mocks.route.js"
 
 import passport from "passport"
 import inicializePassport from "./config/passport.config.js"
@@ -66,6 +67,8 @@ app.use("/api/products",productsRouter);
 app.use("/api/users",usersRouter)
 app.use("/api/sessions",sessionRouter)
 app.use("/",viewRouter)
+
+app.use("/mockingproducts", mockingproductsRouter);
 
 //websocket
 let messages =[]
